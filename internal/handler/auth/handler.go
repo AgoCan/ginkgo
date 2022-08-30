@@ -80,11 +80,11 @@ func (r *Registration) Create(config *config.Config,
 	return response.Success("成功创建用户")
 }
 
-func (t *UserToken) GetUser() (err error, res response.Response) {
+func (t *UserToken) GetUser(db *database.Client) response.Response {
 	// var u User
-	// err = global.GDB.Where("id = ?", t.ID).First(&u).Error
+	// err := db.DB.Where("id = ?", t.ID).First(&u).Error
 	// if err != nil {
-	// 	return err, response.Success("认证错误")
+	// 	return response.Success("认证错误")
 	// }
-	return nil, response.Success("认证成功")
+	return response.Success("认证成功")
 }
