@@ -33,7 +33,9 @@ type UserToken struct {
 
 func (u *UserLogin) Login(config *config.Config,
 	db *database.Client) response.Response {
+
 	u.Password = hash.MD5V([]byte(u.Password))
+
 	var modelU User
 	modelU.Username = u.Username
 	modelU.Password = u.Password
@@ -41,6 +43,7 @@ func (u *UserLogin) Login(config *config.Config,
 	if err != nil {
 		return response.Error(response.ErrUsernameOrPassword)
 	}
+
 	j := &jwtPkg.JWT{SigningKey: []byte(config.Jwt.SigningKey)} // 唯一签名
 	claims := jwtPkg.CustomClaims{
 		ID:       modelU.ID,
@@ -52,13 +55,24 @@ func (u *UserLogin) Login(config *config.Config,
 			Issuer:    "qmPlus",                                      // 签名的发行者
 		},
 	}
+
 	token, err := j.CreateToken(claims)
 	if err != nil {
 		return response.Error(response.ErrJwtToken)
 	}
+
 	modelU.Token = token
 	db.DB.Model(&User{}).Where("id = ?", modelU.ID).Update("token", token)
-	return response.Success(modelU)
+
+	var res LoginRes
+	res.IsActive = modelU.IsActive
+	res.IsSuper = modelU.IsSuper
+	res.LastLogin = modelU.LastLogin.Time
+	res.Nickname = modelU.Nickname.String
+	res.Username = modelU.Username
+	res.Token = token
+
+	return response.Success(res)
 }
 
 func (r *Registration) Create(config *config.Config,
@@ -80,11 +94,11 @@ func (r *Registration) Create(config *config.Config,
 	return response.Success("成功创建用户")
 }
 
-func (t *UserToken) GetUser(db *database.Client) response.Response {
-	// var u User
-	// err := db.DB.Where("id = ?", t.ID).First(&u).Error
-	// if err != nil {
-	// 	return response.Success("认证错误")
-	// }
-	return response.Success("认证成功")
+func (t *UserToken) GetUser(db *database.Client) (err error, res response.Response) {
+	var u User
+	err = db.DB.Where("id = ?", t.ID).First(&u).Error
+	if err != nil {
+		return err, response.Success("认证错误")
+	}
+	return nil, response.Success("认证成功")
 }

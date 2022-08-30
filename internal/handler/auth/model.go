@@ -13,7 +13,7 @@ type User struct {
 	Nickname  sql.NullString `gorm:"type:varchar(128)"`
 	Role      Role
 	RoleID    sql.NullInt64
-	IsSupper  uint8
+	IsSuper   uint8
 	IsActive  uint8
 	LastLogin sql.NullTime
 	LastIP    string `gorm:"type:varchar(64)"`
