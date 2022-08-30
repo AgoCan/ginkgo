@@ -10,7 +10,6 @@ import (
 	"ginkgo/internal/pkg/database"
 	"ginkgo/internal/pkg/middleware/cors"
 	"ginkgo/internal/pkg/middleware/log"
-	"ginkgo/internal/router"
 )
 
 type Server struct {
@@ -44,7 +43,8 @@ func (s *Server) Run() {
 	s.Gin.Use(log.GinLogger(s.Log.Logger),
 		log.GinRecovery(s.Log.Logger, true),
 		c)
-	router.SetupRouter(s.Gin)
+	s.migrate()
+	s.SetupRouter()
 
 	err := s.Gin.Run(":9000")
 	if err != nil {

@@ -11,7 +11,8 @@ import (
 
 	"github.com/spf13/viper"
 
-    "ginkgo/internal/pkg/database"
+	"ginkgo/internal/pkg/database"
+	"ginkgo/internal/pkg/jwt"
 	"ginkgo/internal/pkg/middleware/log"
 )
 
@@ -33,6 +34,7 @@ func New(loadPath string) *Config {
 type Config struct {
 	Db  database.Options
 	Log log.Options
+	Jwt jwt.Options
 }
 
 // 获取文件绝对路径
