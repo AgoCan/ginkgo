@@ -94,11 +94,13 @@ func (r *Registration) Create(config *config.Config,
 	return response.Success("成功创建用户")
 }
 
-func (t *UserToken) GetUser(db *database.Client) (err error, res response.Response) {
+func (t *UserToken) GetUser(db *database.Client) (res response.Response, err error) {
 	var u User
 	err = db.DB.Where("id = ?", t.ID).First(&u).Error
 	if err != nil {
-		return err, response.Success("认证错误")
+		res = response.Success("认证错误")
+	} else {
+		res = response.Success("认证成功")
 	}
-	return nil, response.Success("认证成功")
+	return res, err
 }

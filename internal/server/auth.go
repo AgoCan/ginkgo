@@ -38,7 +38,7 @@ func jwtAuth(config *config.Config, db *database.Client) gin.HandlerFunc {
 		}
 		service := auth.UserToken{}
 		service.ID = int(claims.ID)
-		err, res := service.GetUser(db)
+		res, err := service.GetUser(db)
 		if err != nil {
 			c.JSON(http.StatusOK, res)
 			c.Abort()
