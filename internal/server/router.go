@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"ginkgo/internal/handler/auth"
+	"ginkgo/internal/handler/file"
 	"ginkgo/internal/handler/health"
 )
 
@@ -15,6 +16,7 @@ func (s *Server) SetupRouter() {
 
 	v1Auth := s.Gin.Group("/api/v1")
 	v1Auth.Use(jwtAuth(s.Config, s.DB))
+	s.uploadFileRouter(v1Auth)
 	v1Auth.GET("/auth/health", health.HealthHandler())
 }
 
@@ -22,4 +24,8 @@ func (s *Server) authRouter(engine *gin.RouterGroup) {
 	engine.POST("/login", auth.LoginHandler(s.Config, s.DB))
 	engine.POST("/register", auth.RegisterHandler(s.Config, s.DB))
 
+}
+
+func (s *Server) uploadFileRouter(engine *gin.RouterGroup) {
+	engine.POST("/upload", file.UploadrHandler(s.Config, s.DB))
 }
