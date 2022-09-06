@@ -23,3 +23,5 @@ jwt:
   expired: 7200
   store: "file"
   filePath: "data/jwt_auth.db"
+file:
+  path: ./tmp/upload

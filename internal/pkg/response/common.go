@@ -18,6 +18,7 @@ func Init() {
 	codeMsgMap = authRes(codeMsgMap)
 	codeMsgMap = esRes(codeMsgMap)
 	codeMsgMap = machineRes(codeMsgMap)
+	codeMsgMap = fileRes(codeMsgMap)
 }
 
 func baseRes(msg map[int]string) map[int]string {
