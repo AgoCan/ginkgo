@@ -29,8 +29,6 @@ func NewClient(o *Options) *Client {
 	if err != nil {
 		panic(err)
 	}
-	// 创建数据库
-	migrate()
 
 	// 尝试连接
 	err = db.DB().Ping()
@@ -38,7 +36,4 @@ func NewClient(o *Options) *Client {
 		DB: db,
 	}
 
-}
-
-func migrate() {
 }
