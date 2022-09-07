@@ -40,7 +40,7 @@ func UploadrHandler(
 		defer destFile.Close()
 		io.Copy(destFile, mFile)
 
-		res := service.Upload(config, db)
+		res := service.Upload(config, db, *mFileHeader, filePath)
 		c.JSON(http.StatusOK, res)
 
 	}
