@@ -35,4 +35,10 @@ func (o *AppOptions) loadConfig(configFile string) {
 		configFile = _defaultConfigFile
 	}
 	o.Config = config.New(configFile)
+	if o.Config.Log.LogDirector == "" {
+		o.Config.Log.LogDirector = "./log"
+	}
+	o.Config.Log.LogErrorFilePath = o.Config.Log.LogDirector + "/" + o.Config.Log.LogErrorFilename
+	o.Config.Log.LogInfoFilePath = o.Config.Log.LogDirector + "/" + o.Config.Log.LogInfoFilename
+
 }

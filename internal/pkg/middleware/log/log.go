@@ -34,7 +34,8 @@ type Client struct {
 }
 
 func NewClient(config Options) *Client {
-	writeSyncer := getLogWriter(config.LogInfoFilePath,
+	logPath := config.LogDirector + "/" + config.LogInfoFilename
+	writeSyncer := getLogWriter(logPath,
 		config.LogMaxSize,
 		config.LogMaxBackups,
 		config.LogMaxAge)
