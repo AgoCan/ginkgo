@@ -27,6 +27,7 @@ func (o *AppOptions) NewServer() (*server.Server, error) {
 	s.Config = o.Config
 	s.Log = log.NewClient(s.Config.Log)
 	s.DB = database.NewClient(&s.Config.Db)
+	log.Init()
 	return s, nil
 }
 

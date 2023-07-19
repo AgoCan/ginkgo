@@ -33,6 +33,13 @@ type Client struct {
 	Logger *zap.Logger
 }
 
+var Sugar *zap.SugaredLogger
+
+func Init() {
+	logger, _ := zap.NewProduction()
+	Sugar = logger.Sugar()
+}
+
 func NewClient(config Options) *Client {
 	logPath := config.LogDirector + "/" + config.LogInfoFilename
 	writeSyncer := getLogWriter(logPath,
